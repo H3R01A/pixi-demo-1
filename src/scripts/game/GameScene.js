@@ -34,7 +34,7 @@ export class GameScene extends Scene {
 
     onCollisionStart(event) {
         const colliders = [event.pairs[0].bodyA, event.pairs[0].bodyB];
-        const hero = colliders.find(body => body.gameHero);
+                const hero = colliders.find(body => body.gameHero);
         const enemy = colliders.find(body => body.gameEnemy);
         const platform = colliders.find(body => body.gamePlatform);
         
@@ -71,7 +71,7 @@ export class GameScene extends Scene {
 
         // [14]
         this.hero.sprite.once("die", () => {
-                        App.scenes.start("Game");
+            App.scenes.start("Game");
         });
         // [/14]
     }
@@ -108,6 +108,7 @@ export class GameScene extends Scene {
         App.app.ticker.remove(this.update, this);
         this.bg.destroy();
         this.hero.destroy();
+        this.enemy.destroy();
         this.platfroms.destroy();
         this.labelScore.destroy();
     }
