@@ -7,7 +7,7 @@ export class Enemy {
     this.createSprite();
     this.createBody();
     this.dx = -2;
-    App.app.ticker.add(this.update, this);
+        App.app.ticker.add(this.update, this);
     this.jumpIndex = 0;
   }
 
@@ -20,7 +20,7 @@ export class Enemy {
 
   createBody() {
     this.body = Matter.Bodies.rectangle(
-      this.sprite.x + 800 + this.sprite.width / 2,
+      this.sprite.x + this.sprite.width / 2,
       this.sprite.y + this.sprite.height / 2,
       this.sprite.width,
       this.sprite.height,
@@ -32,10 +32,10 @@ export class Enemy {
 
   update() {
 
-    this.sprite.x = this.body.position.x + 300 - this.sprite.width / 2;
+    this.sprite.x = this.body.position.x - this.sprite.width / 2;
     this.sprite.y = this.body.position.y - this.sprite.height / 2;
 
-    Matter.Body.setPosition(this.body, {x: this.body.position.x + this.dx, y: this.body.position.y});
+    Matter.Body.setPosition(this.body, {x: this.body.position.x + this.dx, y: this.body.position.y});   
 
     this.sprite.x = this.body.position.x - this.sprite.width / 2;
     this.sprite.y = this.body.position.y - this.sprite.height / 2;
@@ -49,17 +49,17 @@ export class Enemy {
   }
 
   createSprite() {
-    this.sprite = new PIXI.AnimatedSprite([
-      App.res("walk1"),
-      App.res("walk2"),
+        this.sprite = new PIXI.AnimatedSprite([
+      App.res("enemy_walk1"),
+      App.res("enemy_walk2")
+      
     ]);
-    this.sprite.tint = 0;
-    this.sprite.x = App.config.hero.position.x + 50;
-    this.sprite.y = App.config.hero.position.y;
+    this.sprite.x = App.config.enemy.position.x;
+    this.sprite.y = App.config.enemy.position.y;
     this.sprite.loop = true;
     this.sprite.animationSpeed = 0.1;
     this.sprite.play();
-  }
+      }
 
   destroy() {
     if (this.sprite) {
