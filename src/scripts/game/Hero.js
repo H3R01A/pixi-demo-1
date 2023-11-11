@@ -23,6 +23,14 @@ export class Hero {
   }
   //[/12]
 
+  destroyEnemy(enemy) {
+    if (enemy.sprite) {
+      ++this.score;
+      enemy.sprite.emit("die");
+      enemy.destroy();
+    }
+  }
+
   startJump() {
     this.sprite.textures = [App.res("jump")];
     if (this.platform || this.jumpIndex === 1) {
@@ -48,9 +56,9 @@ export class Hero {
   }
 
   update() {
-    this.sprite.x = this.body.position.x - this.sprite.width / 2;
+        this.sprite.x = this.body.position.x - this.sprite.width / 2;
     this.sprite.y = this.body.position.y - this.sprite.height / 2;
-  
+
     // [14]
     if (this.sprite.y > window.innerHeight) {
       this.sprite.emit("die");
