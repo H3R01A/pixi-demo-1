@@ -4,12 +4,14 @@ import { App } from '../system/App';
 import { Background } from "./Background";
 import { Scene } from '../system/Scene';
 import { Hero } from "./Hero";
+import { Enemy } from  "./Enemy";
 import { Platforms } from "./Platforms";
 
 export class GameScene extends Scene {
     create() {
         this.createBackground();
         this.createHero();
+        this.createEnemy();
         this.createPlatforms();
         this.setEvents();
         //[13]
@@ -33,16 +35,28 @@ export class GameScene extends Scene {
     onCollisionStart(event) {
         const colliders = [event.pairs[0].bodyA, event.pairs[0].bodyB];
         const hero = colliders.find(body => body.gameHero);
+        const enemy = colliders.find(body => body.gameEnemy);
         const platform = colliders.find(body => body.gamePlatform);
-
+        
         if (hero && platform) {
             this.hero.stayOnPlatform(platform.gamePlatform);
         }
+
+        if (enemy && platform) {
+            this.enemy.stayOnPlatform(platform.gamePlatform);
+        }
+
 
         const diamond = colliders.find(body => body.gameDiamond);
 
         if (hero && diamond) {
             this.hero.collectDiamond(diamond.gameDiamond);
+        }
+
+        if (hero && enemy) {
+            
+            this.hero.destroyEnemy(enemy.gameEnemy);
+            
         }
     }
 
@@ -57,9 +71,21 @@ export class GameScene extends Scene {
 
         // [14]
         this.hero.sprite.once("die", () => {
-            App.scenes.start("Game");
+                        App.scenes.start("Game");
         });
         // [/14]
+    }
+
+    createEnemy() {
+        this.enemy = new Enemy();
+        this.container.addChild(this.enemy.sprite);
+
+        this.container.interactive = true;
+
+        this.enemy.sprite.once("die", () => {
+            this.enemy.destroy();
+            this.createEnemy();
+        })
     }
 
     createBackground() {
