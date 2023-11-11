@@ -25,9 +25,9 @@ export class Hero {
 
   destroyEnemy(enemy) {
     if (enemy.sprite) {
-      ++this.score;
+      this.score += 2;
+      this.sprite.emit("score");
       enemy.sprite.emit("die");
-      enemy.destroy();
     }
   }
 
@@ -67,7 +67,7 @@ export class Hero {
   }
 
   createSprite() {
-    this.sprite = new PIXI.AnimatedSprite([
+        this.sprite = new PIXI.AnimatedSprite([
             App.res("walk1"),
             App.res("walk2")
         ]);
