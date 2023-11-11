@@ -47,6 +47,13 @@ export const Config = {
             y: 595
         }
     },
+
+    enemy: {
+        position:{
+            x: window.innerWidth - 100,
+            y: 200
+        }
+    },
     scenes: {
         "Game": GameScene
     }
