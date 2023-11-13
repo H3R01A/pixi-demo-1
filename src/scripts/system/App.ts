@@ -4,9 +4,18 @@ import { gsap } from "gsap";
 import { PixiPlugin } from "gsap/PixiPlugin";
 import { Loader } from "./Loader";
 import { ScenesManager } from "./ScenesManager";
+import { Config } from "../game/Config";
+
+
 
 class Application {
-    run(config) {
+    config: typeof Config | undefined;
+    app:PIXI.Application | undefined;
+    loader: Loader | undefined;
+    scenes: ScenesManager | undefined;
+    physics: Matter.Engine | undefined;
+
+    run(config:typeof Config) {
         gsap.registerPlugin(PixiPlugin);
         PixiPlugin.registerPIXI(PIXI);
 
@@ -18,12 +27,14 @@ class Application {
         this.loader = new Loader(this.app.loader, this.config);
         this.loader.preload().then(() => this.start());
 
+        this.createPhysics();
+      
         this.scenes = new ScenesManager();
         this.app.stage.interactive = true;
         this.app.stage.addChild(this.scenes.container);
 
         // [06]
-        this.createPhysics();
+        
     }
 
     createPhysics() {
@@ -33,16 +44,16 @@ class Application {
     }
     // [/06]
 
-    res(key) {
-        return this.loader.resources[key].texture;
+    res(key: string) {
+        return this?.loader?.resources[key].texture;
     }
 
-    sprite(key) {
+    sprite(key: string) {
         return new PIXI.Sprite(this.res(key));
     }
 
     start() {
-        this.scenes.start("Game");
+        this?.scenes?.start("Game");
     }
 }
 
