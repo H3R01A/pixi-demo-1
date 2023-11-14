@@ -28,11 +28,19 @@ type GameBodyPair = {
   gameEnemy: Enemy;
 };
 
-interface MatterEventDetector extends Matter.Events {
-    source: {
-        detector: Matter.Detector
-    }
+interface CollisionData  {
+  
+  pairs: Matter.Body[];
+  timestamp: number;
+  source: Hero | Diamond | Enemy | Platform;
+  name: string;
 }
+
+// interface MatterEventsGame extends Matter.Events {
+//   on: <C extends Matter.ICollisionCallback>(obj: Matter.Engine, name: "collisionStart", callback: C | CollisionData) => C;
+// }
+
+
 
 export class GameScene extends Scene {
   container!: PIXI.Container;
@@ -41,17 +49,6 @@ export class GameScene extends Scene {
   enemy: Enemy | undefined;
   bg: Background | undefined;
   platforms: Platforms | undefined;
-
-//   constructor() {
-//     super();
-//     this.createBackground();
-//     this.createHero();
-//     this.createEnemy();
-//     this.createPlatforms();
-//     this.setEvents();
-//     //[13]
-//     this.createUI();
-//   }
 
    create() {
       this.createBackground();
@@ -83,25 +80,15 @@ export class GameScene extends Scene {
     );
   }
 
-  onCollisionStart(event: Matter.Events) {
+  onCollisionStart(event: any) {
 
-    // console.log(event);
-    
+  
+    const colliders = [event.pairs[0].bodyA, event.pairs[0].bodyB];
 
-    const collisions = Matter.Detector.collisions((event as MatterEventDetector).source.detector);
-
-    // console.log('here are collisions in the game', collisions);
-    // console.log('hi with onCollision Start - the pairs', pairs.bodyA, pairs.bodyB)
-
-    const {pair} = collisions[0];
-
-    if (pair) {
+    if (colliders) {
        
-      if ("bodyA" in pair && "bodyB" in pair) {
-
-
-        const colliders = [pair.bodyA, pair.bodyB];
-       
+      if ("bodyA" in event.pairs[0] && "bodyB" in event.pairs[0]) {
+        const colliders = [event.pairs[0].bodyA, event.pairs[0].bodyB];
 
         const hero = colliders.find((body) => (body as unknown as GameBodyPair).gameHero);
 
@@ -110,8 +97,6 @@ export class GameScene extends Scene {
         const platform = colliders.find((body) => (body  as unknown as GameBodyPair).gamePlatform) as unknown as GameScenePlatform;
 
         const diamond = colliders.find((body) => (body  as unknown as  GameBodyPair).gameDiamond) as unknown as GameSceneDiamond;
-
-        console.log({hero, enemy});
 
         if (hero && platform) {
           this.hero?.stayOnPlatform(platform.gamePlatform);
@@ -126,7 +111,7 @@ export class GameScene extends Scene {
         }
 
         if (hero && enemy) {
-          console.log('hero and enemy clash');
+          
           this.hero?.destroyEnemy(enemy.gameEnemy);
         }
       }
