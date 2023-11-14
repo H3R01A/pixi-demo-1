@@ -41,8 +41,9 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Build Application
-        run: npm run build
-        run: git config --global --add safe.directory /github/workspace
+        run: |
+          npm run build
+          git config --global --add safe.directory /github/workspace
       
     
       - name: Deploy to GitHub Pages
