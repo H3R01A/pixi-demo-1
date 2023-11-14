@@ -44,13 +44,7 @@ jobs:
         run: |
           npm run build
           
-      - name: Debug
-        run: |
-          git --version
-          git remote -v
-          git branch -a
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+ 
     
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@releases/v3
@@ -58,3 +52,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           BRANCH: gh-pages
           FOLDER: dist
+
+      - name: Debug
+        run: |
+          git --version
+          git remote -v
+          git branch -a
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
