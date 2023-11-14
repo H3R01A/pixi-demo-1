@@ -34,9 +34,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       # Runs a single command using the runners shell
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16'
+      # - uses: actions/setup-node@v2
+      #   with:
+      #     node-version: '16'
       - run: npm i
       - run: npm run build
       - name: Init new repo in dist folder and commit generated files
