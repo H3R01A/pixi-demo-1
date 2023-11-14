@@ -26,7 +26,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      # Runs a single command using the runners shell
+      
       - name: Setup Node.js 
         uses: actions/setup-node@v3
         with:
@@ -42,14 +42,6 @@ jobs:
           name: app-build
           path: dist
           
-      - name: Debug
-        run: |
-          git --version
-          git remote -v
-          git branch -a
-          echo ${{ secrets.GH_TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
       - name: Download build artifacts
         uses: actions/download-artifact@v3
@@ -59,7 +51,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          # Upload entire repository
+          # Upload dist folder
           path: dist
 
       - name: Deploy to GitHub Pages
