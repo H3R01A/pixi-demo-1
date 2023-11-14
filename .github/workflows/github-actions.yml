@@ -15,6 +15,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
+  
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -32,3 +33,21 @@ jobs:
       #   run: |
           # echo Add other actions to build,
           # echo test, and deploy your project.
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          # Upload entire repository
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
