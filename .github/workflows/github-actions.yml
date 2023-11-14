@@ -43,11 +43,12 @@ jobs:
       - name: Build Application
         run: |
           npm run build
-          git config --global --add safe.directory /github/workspace
+          
       
     
       - name: Deploy to GitHub Pages
         uses: ad-m/github-push-action@v0.5.0
+        run: git config --global --add safe.directory /github/workspace
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
