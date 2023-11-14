@@ -1,63 +1,38 @@
-# This is a basic workflow to help you get started with Actions
 
 name: deploy
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-# concurrency:
-#   group: "pages"
-#   cancel-in-progress: false
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-  
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+      runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      # Runs a single command using the runners shell
+      
       - name: Setup Node.js 
         uses: actions/setup-node@v3
         with:
           node-version: 16
+
       - name: Install Dependencies
         run: npm install
+
       - name: Build Application
-        run: |
-          npm run build
+        run: npm run build
+
       - name: Upload dist folder
         uses: actions/upload-artifact@v3
         with:
           name: app-build
           path: dist
           
-      - name: Debug
-        run: |
-          git --version
-          git remote -v
-          git branch -a
-          echo ${{ secrets.GH_TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
       - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
@@ -66,7 +41,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          # Upload entire repository
+          # Upload folder with build game
           path: dist
 
       - name: Deploy to GitHub Pages
