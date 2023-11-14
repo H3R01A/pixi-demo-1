@@ -73,7 +73,6 @@ export class Hero {
 
   // [08]
   stayOnPlatform(platform: Platform) {
-    console.log('within stayOnPlatform of hero, the hero sprite', this.sprite);
     if (this.sprite) {
       this.platform = platform;
       this.jumpIndex = 0;
@@ -102,13 +101,6 @@ export class Hero {
       
 
       (this.body as HeroBody).gameHero = this;
-
-      // console.log('this is created hero body', this.body);
-      // this.body.gameHero = this;
-
-      // if ("gameHero" in this.body) {
-      //   this.body.gameHero = this;
-      // }
       
     }
   }
