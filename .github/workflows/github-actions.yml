@@ -42,6 +42,7 @@ jobs:
         run: npm install
       - name: Build Application
         run: npm run build
+        run: git config --global --add safe.directory /github/workspace
       
     
       - name: Deploy to GitHub Pages
