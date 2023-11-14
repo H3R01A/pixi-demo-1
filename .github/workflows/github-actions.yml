@@ -34,23 +34,19 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       # Runs a single command using the runners shell
-      # - uses: actions/setup-node@v2
-      #   with:
-      #     node-version: '16'
-      - run: npm i
-      - run: npm run build
-      # - name: Init new repo in dist folder and commit generated files
-      # - run: cd docs/dist
-      # - run: git init
-      # - run: git add -A
-      # - run: git config --local user.email "action@github.com"
-      # - run: git config --local user.name "GitHub Action"
-      # - run: git commit -m 'deploy'
-        
-      - name: Force push to destination branch
+      - name: Setup Node.js 
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install Dependencies
+        run: npm install
+      - name: Build Application
+        run: npm run build
+      
+    
+      - name: Deploy to GitHub Pages
         uses: ad-m/github-push-action@v0.5.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
-          force: true
-          directory: ./docs/dist
+          folder: dist
