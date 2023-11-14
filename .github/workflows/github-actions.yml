@@ -43,6 +43,10 @@ jobs:
       - name: Build Application
         run: |
           npm run build
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-build
+          path: dist
           
       - name: Debug
         run: |
@@ -53,11 +57,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: app-build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          # Upload entire repository
+          path: dist
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v2
         with:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: dist
+          token: ${{ secrets.GH_TOKEN }}
+          
 
       
