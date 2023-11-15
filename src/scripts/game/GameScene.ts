@@ -28,19 +28,12 @@ type GameBodyPair = {
   gameEnemy: Enemy;
 };
 
-interface CollisionData  {
-  
+
+type CollisionData = {
   pairs: Matter.Body[];
-  timestamp: number;
-  source: Hero | Diamond | Enemy | Platform;
-  name: string;
 }
 
-// interface MatterEventsGame extends Matter.Events {
-//   on: <C extends Matter.ICollisionCallback>(obj: Matter.Engine, name: "collisionStart", callback: C | CollisionData) => C;
-// }
-
-
+type CollisionGameEvent = Matter.IEvent<CollisionData| undefined>;
 
 export class GameScene extends Scene {
   container!: PIXI.Container;
@@ -80,16 +73,17 @@ export class GameScene extends Scene {
     );
   }
 
-  onCollisionStart(event: any) {
+  onCollisionStart(event: CollisionGameEvent) {
 
   
-    const colliders = [event.pairs[0].bodyA, event.pairs[0].bodyB];
+    let colliders;
+    if("pairs" in event){
+      colliders = [(event.pairs as Matter.Pair[])[0].bodyA, (event.pairs as Matter.Pair[])[0].bodyB];
+
+    }
 
     if (colliders) {
        
-      if ("bodyA" in event.pairs[0] && "bodyB" in event.pairs[0]) {
-        const colliders = [event.pairs[0].bodyA, event.pairs[0].bodyB];
-
         const hero = colliders.find((body) => (body as unknown as GameBodyPair).gameHero);
 
         const enemy = colliders.find((body) => (body  as unknown as  GameBodyPair).gameEnemy) as unknown as GameSceneEnemy;
@@ -114,7 +108,7 @@ export class GameScene extends Scene {
           
           this.hero?.destroyEnemy(enemy.gameEnemy);
         }
-      }
+      
     }
   }
 
