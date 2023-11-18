@@ -36,6 +36,7 @@ jobs:
       - name: Build Application
         run: |
           npm run build
+      # upload the built dist folder as an artifact to be downloaded and used later
       - name: Upload dist folder
         uses: actions/upload-artifact@v3
         with:
@@ -47,7 +48,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: app-build
-
+      # use the upload-pages-artifact action to upload the dist that was built in the previous actions
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
