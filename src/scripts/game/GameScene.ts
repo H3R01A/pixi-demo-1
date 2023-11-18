@@ -14,6 +14,15 @@ type GameScenePlatform = {
   gamePlatform: Platform;
 };
 
+/**
+ * Interface implementation in case want to extend later
+ 
+interface GameScenePlatform {
+  gamePlatform: Platform;
+};
+
+ */
+
 type GameSceneDiamond = {
   gameDiamond: Diamond;
 };
@@ -33,8 +42,22 @@ type CollisionData = {
   pairs: Matter.Body[];
 }
 
-type CollisionGameEvent = Matter.IEvent<CollisionData| undefined>;
+/**
+ * Interface implementation in case want to extend later
+ 
+interface CollisionData {
+  pairs: Matter.Body[];
+}
 
+ */
+
+type CollisionGameEvent = Matter.IEvent<CollisionData| undefined>;
+/**
+ * Interface implementation in case want to extend later
+  
+interface CollisionGameEvent extends Matter.IEvent<CollisionData | undefined>{};
+ 
+ *  */
 export class GameScene extends Scene {
   container!: PIXI.Container;
   labelScore: LabelScore | undefined;
