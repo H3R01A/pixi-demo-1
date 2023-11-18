@@ -34,9 +34,8 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Build Application
-        run: |
-          npm run build
-      # upload the built dist folder as an artifact to be downloaded and used later
+        run: npm run build
+      # upload the built dist folder as an artifact to be downloaded and used in actions below
       - name: Upload dist folder
         uses: actions/upload-artifact@v3
         with:
@@ -48,11 +47,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: app-build
-      # use the upload-pages-artifact action to upload the dist that was built in the previous actions
+
+      # use the upload-pages-artifact action to upload the dist folder that was built and uploaded in the previous actions
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          # Upload dist folder
+          # specify the dist director in order for the built files to be served and used as part of the final application deployment
           path: dist
 
       - name: Deploy to GitHub Pages
