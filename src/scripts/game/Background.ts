@@ -36,7 +36,7 @@ export class Background {
 
         if (spriteRightX <= screenLeftX) {
             
-            //Type Guard
+            
             if(this.sprites){
 
             sprite.x += sprite.width * this.sprites?.length;
@@ -48,7 +48,7 @@ export class Background {
     }
 
     update(dt: number) {
-        //Type Guard
+        
         if(this.speed){
             const offset = this.speed * dt;
             this.sprites?.forEach(sprite => {

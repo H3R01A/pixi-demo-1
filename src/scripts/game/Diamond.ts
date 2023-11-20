@@ -24,7 +24,7 @@ export class Diamond {
     }
 
     update() {
-        //Updated Type Guard
+    
         if (this.sprite && this.body) {
             Matter.Body.setPosition(this.body, {x: this.sprite.width / 2 + this.sprite.x + this.sprite.parent.x, y: this.sprite.height / 2 + this.sprite.y + this.sprite.parent.y});
          

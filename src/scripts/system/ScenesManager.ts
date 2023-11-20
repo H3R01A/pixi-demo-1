@@ -19,7 +19,6 @@ export class ScenesManager {
             this.scene.destroy();
         }
 
-        //Type Guard
         if(App.config?.scenes){
            
             this.scene = new (App.config?.scenes[scene as unknown as keyof typeof Config.scenes])();
