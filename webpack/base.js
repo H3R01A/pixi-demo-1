@@ -28,7 +28,6 @@ module.exports = {
   },
   resolve: {
     extensions: [".js", ".ts",".json"],
-    // modules: ["frontend", "node_modules"],
   },
   plugins: [
     new CleanWebpackPlugin({
